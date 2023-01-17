@@ -4,11 +4,11 @@ import com.example.demo.model.Departments;
 import com.example.demo.model.EmployeeModel;
 import com.example.demo.model.dto.ResponseDto;
 import com.example.demo.services.serviceimpl.EmployerRegistrationServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 @RestController
@@ -18,7 +18,7 @@ public class Controller {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/register_new_employee")
     @ResponseBody
-    public ResponseDto registerNewEmployee(@Valid  @RequestBody EmployeeModel employeeModel){
+    public ResponseDto registerNewEmployee(@Valid @RequestBody EmployeeModel employeeModel){
         ResponseDto responseDto = new ResponseDto();
         System.out.println(employeeModel);
         EmployeeModel newEmployee = employerRegistrationService.RegisterEmployee(employeeModel);
