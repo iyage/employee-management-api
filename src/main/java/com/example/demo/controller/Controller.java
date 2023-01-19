@@ -20,7 +20,7 @@ public class Controller {
     @ResponseBody
     public ResponseDto registerNewEmployee(@Valid @RequestBody EmployeeModel employeeModel){
         ResponseDto responseDto = new ResponseDto();
-        System.out.println(employeeModel);
+
         EmployeeModel newEmployee = employerRegistrationService.RegisterEmployee(employeeModel);
         responseDto.setMessage("Employee Successfully Registered");
 
