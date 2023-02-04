@@ -1,23 +1,34 @@
 package com.example.demo.services.serviceimpl;
 
 import com.example.demo.exceptions.ResourceNotFoundExption;
+import com.example.demo.model.DepartmentModel;
 import com.example.demo.model.EmployeeModel;
+import com.example.demo.model.dto.EmployeeModelDto;
+import com.example.demo.repository.DepartmentRepository;
 import com.example.demo.repository.EmployeeModelRepository;
 import com.example.demo.services.EmployerRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployerRegistrationServiceImpl implements EmployerRegistrationService {
     @Autowired
     EmployeeModelRepository employeeModelRepository;
+    @Autowired
+    DepartmentRepository departmentRepository;
     @Override
-    public EmployeeModel RegisterEmployee(EmployeeModel employeeModel) {
-        return employeeModelRepository.save(employeeModel);
+    public EmployeeModel RegisterEmployee(EmployeeModelDto employeeModel) {
+        return employeeModelRepository.save(EmployeeModel.builder()
+                .email(employeeModel.getEmail())
+                .first_name(employeeModel.getFirst_name())
+                .last_name(employeeModel.getLast_name())
+                .password(employeeModel.getPassword())
+                .salary(employeeModel.getSalary())
+                .joinDate(employeeModel.getJoinDate())
+        .build());
     }
 
     @Override
@@ -29,13 +40,6 @@ public class EmployerRegistrationServiceImpl implements EmployerRegistrationServ
     public EmployeeModel updateEmployeeDetails(EmployeeModel employeeModel) {
         EmployeeModel employee = (employeeModelRepository.findById(employeeModel.getId()).orElseThrow(() ->
                 new ResourceNotFoundExption("user not found")));
-        if(employeeModel.getDepartment()!=null){
-
-            if( !employeeModel.getDepartment().equals(""))
-            {
-             employee.setDepartment(employeeModel.getDepartment());
-            }
-        }
         if(employeeModel.getFirst_name()!=null||!employeeModel.getFirst_name().equals("")){
             employee.setFirst_name(employeeModel.getFirst_name());
         }
@@ -47,10 +51,25 @@ public class EmployerRegistrationServiceImpl implements EmployerRegistrationServ
             System.out.println(employeeModel.getJoinDate());
             employee.setJoinDate(employeeModel.getJoinDate());
         }
-        if(employeeModel.getJoinDate()!=null || employeeModel.getImgUrl().equals(""))
-            employee.setImgUrl(employeeModel.getImgUrl());
-
         return employeeModelRepository.save(employee);
+    }
+    @Transactional
+    public EmployeeModel employeeDept(String deptName,String employeeId)
+        {
+            DepartmentModel dept = departmentRepository.findDepartmentModelByName(deptName).orElseThrow(()->new ResourceNotFoundExption("Dept not found"));
+            EmployeeModel employeeModel = employeeModelRepository.findById(employeeId).orElseThrow(()-> new ResourceNotFoundExption("Employee not found"));
+            employeeModel.setDept(dept);
+            dept.getEmployee().add(employeeModel);
+            return employeeModel;
+        }
+@Transactional
+    @Override
+    public EmployeeModel removeEmployeeFromDept( String employeeId) {
+        EmployeeModel employeeModel = employeeModelRepository.findById(employeeId).orElseThrow(()-> new ResourceNotFoundExption("Employee not found"));
+        DepartmentModel dept =  employeeModel.getDept();
+        dept.getEmployee().remove(employeeModel);
+        employeeModel.setDept(null);
+        return employeeModel;
     }
 
     @Override

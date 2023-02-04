@@ -1,37 +1,25 @@
-package com.example.demo.model;
+package com.example.demo.model.dto;
 
-import com.example.demo.IdGenerator;
-import com.example.demo.model.dto.ResponseDto;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import com.example.demo.model.DepartmentModel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
-@Entity
-@Table(name = "employee")
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Getter
 @Setter
-@Builder
-public class EmployeeModel {
-    @Id
-    @GeneratedValue(generator = "uuid-id")
-  @GenericGenerator(name="uuid-id",
-          strategy = "com.example.demo.IdGenerator")
-   private String id;
-    @NotBlank(message ="")
+public class EmployeeModelDto {
+    @NotBlank(message ="First Name can not be blank")
     private String first_name;
     @NotBlank(message = "Last Name can not be blank")
     private String last_name;
@@ -41,11 +29,9 @@ public class EmployeeModel {
     @NotBlank(message = "Password can not be blank")
     @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}",message = "Password must contain one uppercase character and one special character")
     private String password;
-    private String imgUrl;
+    @NotNull(message = "salary can not be null")
     private Long salary;
+    @NotNull(message = "Date can not be null")
     @DateTimeFormat(pattern = "YYYY-MM-DD")
     private Date  joinDate;
-    private boolean status = false;
-   @ManyToOne
-   private DepartmentModel dept ;
 }
