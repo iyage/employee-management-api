@@ -14,13 +14,13 @@ import javax.validation.Valid;
 import java.util.Date;
 
 @RestController
-@CrossOrigin(origins ="${FRONTEND_URL}")
+//@CrossOrigin(origins ="${FRONTEND_URL}")
 public class Controller {
     @Autowired
     EmployerRegistrationServiceImpl employerRegistrationService;
     @Autowired
     DeparmentServiceImpl deparmentService;
-    @CrossOrigin(origins ="${FRONTEND_URL}")
+//    @CrossOrigin(origins ="${FRONTEND_URL}")
     @PostMapping("/register_new_employee")
     @ResponseBody
     public ResponseEntity<ResponseDto>  registerNewEmployee(@Valid @RequestBody EmployeeModelDto employeeModel){
@@ -32,26 +32,26 @@ public class Controller {
         return  new ResponseEntity<>(responseDto, HttpStatus.CREATED);
 
     }
-    @CrossOrigin(origins = "${FRONTEND_URL}")
+//    @CrossOrigin(origins = "${FRONTEND_URL}")
     @GetMapping("/get_all_dept")
     @ResponseBody
     public ResponseEntity<ResponseDto> getAllDepart()
     {
         return  new ResponseEntity<>(new ResponseDto("success",deparmentService.fetchAllDept(),new Date()),HttpStatus.OK);
     }
-    @CrossOrigin(origins ="${FRONTEND_URL}")
+//    @CrossOrigin(origins ="${FRONTEND_URL}")
     @GetMapping(path = "/get_all_employee")
     public ResponseEntity<ResponseDto> getAllEmployee()
     {
         return  new ResponseEntity<>(new ResponseDto("success",employerRegistrationService.employeeList(),new Date()),HttpStatus.OK);
     }
-    @CrossOrigin(origins ="${FRONTEND_URL}")
+//    @CrossOrigin(origins ="${FRONTEND_URL}")
     @PutMapping(path = "/update_details")
     public ResponseEntity<ResponseDto> updateEmployeeDetails(@RequestBody EmployeeModel employeeModel)
     {
         return new ResponseEntity<>(new ResponseDto("success",employerRegistrationService.updateEmployeeDetails(employeeModel),new Date()),HttpStatus.OK);
     }
-    @CrossOrigin(origins ="${FRONTEND_URL}")
+//    @CrossOrigin(origins ="${FRONTEND_URL}")
     @DeleteMapping(path = "/delete_employee/{id}")
 
     public ResponseEntity<ResponseDto> deleteEmployee(@PathVariable(value = "id") String id)
@@ -60,20 +60,20 @@ public class Controller {
         return new ResponseEntity<>(new ResponseDto("success",null, new Date()),HttpStatus.OK);
     }
 
-    @CrossOrigin(origins ="${FRONTEND_URL}")
+//    @CrossOrigin(origins ="${FRONTEND_URL}")
     @PostMapping(path = "/add_new_dept")
     public ResponseEntity<ResponseDto> addNewDept(@Valid @RequestBody DepartmentDto dept)
     {
         return  new ResponseEntity<>(new ResponseDto("success",deparmentService.addNewDept(dept),new Date()),HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins ="${FRONTEND_URL}")
+//    @CrossOrigin(origins ="${FRONTEND_URL}")
     @GetMapping(path = "/add_new_dept/{employeeId}/{dept}")
     public ResponseEntity<ResponseDto> addEmployeeDept(@PathVariable (value = "employeeId") String employeeId,@PathVariable (value = "dept") String dept)
     {
         return  new ResponseEntity<>(new ResponseDto("success",employerRegistrationService.employeeDept(dept,employeeId),new Date()),HttpStatus.OK);
     }
-    @CrossOrigin(origins ="${FRONTEND_URL}")
+//    @CrossOrigin(origins ="${FRONTEND_URL}")
     @GetMapping(path = "/remove_employee_dept/{employeeId}")
     public ResponseEntity<ResponseDto> removeEmployeeDept(@PathVariable (value = "employeeId") String employeeId)
     {
