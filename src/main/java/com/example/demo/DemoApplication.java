@@ -39,6 +39,7 @@ public class DemoApplication {
 				"<h2 style='margin:2px'> Author: Ofunrein Iyaghe.</h2> " +
 						"<article> <h2>Description </h2>" +
 						"The Api endpoints help with Basic employee management CRUD  operation<br/>" +
+						"uml diagram: https://drive.google.com/file/d/1Jt98ia5ZzlepHYRs1E8O-oCbvnWDd7c6/view?usp=sharing" +
 						"<article>.<br/>",
 				"1.0",
 				"Free to use",
